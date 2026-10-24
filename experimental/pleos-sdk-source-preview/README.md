@@ -2,14 +2,14 @@
 
 **Kotlin is uncompiled. No APK, Pleos emulator, live SDK callback, or real vehicle has been tested. SDK installation/license approval remains pending.**
 
-This directory is separate from the validated v0.5.0 web simulation in the repository root. The root server does not import it, expose `/api/pleos`, or integrate it with `/vehicle.html`. No old web application copy or `/pleos.html` is included.
+This directory is separate from the validated v0.7.0 web prototype in the repository root. The root server does not import it, expose `/api/pleos`, or integrate it with `/vehicle.html`. No old web application copy or `/pleos.html` is included.
 
 ## Included
 
 - `android/`: source-only Kotlin adapter targeting official `ai.pleos.playground:NaviHelper:3.0.5`, with build configuration and manifest/XML. No SDK binaries, wrapper JAR, APK, or credentials.
 - `pleos-bridge.mjs`: default-off, local-only transport/event contract. It reuses the root workflow error type; it does not alter the root web server.
-- `contract-server.mjs`: isolated protocol test harness using the current root workflow modules. It has separate default storage and no browser assets. It is not the v0.5 web application.
-- `tests/pleos-bridge.test.mjs`: 21 synthetic contract tests, separate from the root 129 web tests.
+- `contract-server.mjs`: isolated protocol test harness using the current root workflow modules. It has separate default storage and no browser assets. It is not the root web application.
+- `tests/pleos-bridge.test.mjs`: 21 synthetic contract tests, separate from the root 247 web tests.
 - `docs/SDK-SETUP.md` and `docs/VERIFICATION.md`: setup requirements, evidence, and untested boundaries.
 
 ## Verify without installing SDKs

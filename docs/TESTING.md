@@ -1,3 +1,91 @@
+# v0.7 company fleet and policy verification · 24 October 2026
+
+## Automated verification
+
+**247 / 247 tests pass: all 184 earlier tests, 51 new fleet/backend/HTTP tests, and 12 new actual-script/frontend render regressions. Zero failed, skipped or cancelled tests.** No dependencies, SDK, external account, LLM or vehicle hardware is involved.
+
+New checks cover:
+- One-company registry, organization / assigned-vehicle / own-trip isolation and disallowed cross-vehicle or historical-trip disclosure.
+- Role-specific field ceilings, narrowed disclosure, denied control fields, cloned response objects and strict unknown-field/schema rejection.
+- Independent read, destination request/operator approval and control simulation permissions; unknown capability, stale/future timestamp, unknown motion/UX, moving and restricted UX refusal.
+- Immutable binding/policy/state snapshots and current restrictive policy rechecks before execution; approval revocation, policy-version and vehicle-version invalidation.
+- Changed-policy/current-state masking of historical output; historical trip identity checked before returning cached results.
+- Two-vehicle mixed outcomes, partial first-attempt adapter failure, selective failed-only retry and no repeated successful effects.
+- Durable actor-scoped request keys, conflict detection, response-loss/restart replay, copied state, HTTP origin/body guards and concurrent transitions.
+- Empty or malformed transition selectors cannot silently broaden a selective request into a batch.
+- Actual frontend script tests (mock DOM/network, not a browser): scoped card rendering, explicit destination request/approval matrix, workflow-selection persistence, field editing, uncertain-response key retention, mixed statuses, and HTML escaping.
+
+Shared-response isolation and historical-trip masking gaps discovered during this pass were fixed and have regression tests. JavaScript syntax checks pass. The final source ZIP is extracted into a clean directory and runs the same247-test suite, with no runtime stores, credentials or screenshots bundled.
+
+## Actual browser verification
+
+Verified in actual cloud Chromium against a restarted native-terminal Node server and isolated fictional storage:
+- One customer-company console shows two vehicles with separate assigned fictional pupils and pickup/dropoff schedules.
+- One shared read + simulated-lock binding produces independent results: vehicle101 read success / lock approval wait; vehicle102 first read failure / unknown-lock denial.
+- Failed-only retry makes vehicle102 read attempt2 while vehicle101 stays attempt1. Denied lock never executes.
+- Approval then revocation leaves zero lock attempts and no result; refresh preserves state.
+- Parent view contains only vehicle101 and permitted fields. Removing ETA masks it in the vehicle and historical run views. Explicitly configuring ETA-only yields only the 3-minute field, not pupil/location/other fields.
+- Inspecting vehicle102 as the parent returns a generic SCOPE_DENIED with no data.
+- After the final source restart, approval at policy v3 followed by policy v4 before execution is denied with zero attempts and no result, while fresh state is only30seconds old.
+- A new v4 request, separate approval and separate execution creates exactly one local lock-simulation record, explicitly marked network commands0 / no real vehicle or navigation confirmation.
+- A parent can submit the own-trip destination request but sees no approval button; switching to the operator exposes approval. Approval and subsequent execution create only a local destination-request record, with navigation unchanged, and persist after reload.
+- The parent’s historical mixed batch summary reflects only its visible read step, not a hidden control denial.
+- The original visit studio still passes create → save v1 → activate → ETA3≤5 → approval → customer and Slack local records, each attempt1.
+- Pretendard is loaded. At browser viewport1180px, document width1165px has no horizontal page overflow. The comparison matrix has its own bounded overflow container.
+
+The final expiry/failed-refresh/old-role-clearing changes are covered by script regressions; their fresh source was reloaded for the final browser pass. No physical vehicle, OEM/SDK, emulator, mobile-device viewport or production login validation is claimed. Native captures are screenshots of the web prototype, not generated UI or an emulator.
+
+## Boundaries
+
+These backend tests exercise the demo's role/scope projection and policy transitions. They are not proof of production authentication: actor selection is deliberately a local demo selector. No real company, pupil, vehicle, OEM/SDK capability, door command, navigation operation, external notification or service completion is tested or asserted. The same bounded contract is evaluated separately per vehicle; no transfer/reassignment/optimization is implemented. See [fleet boundaries](FLEET_POLICY.md).
+
+---
+
+# v0.6 platform verification · 24 October 2026
+
+## Automated checks
+
+**184 / 184 tests pass: 129 existing tests unchanged, plus 55 new bounded-platform and frontend regressions. Zero failures, skips or cancellations.** Run `npm test` with Node.js 22 or newer. No package installation is needed.
+
+New coverage includes:
+- Both typed contracts and six-stage graph construction; registry's unavailable partnership/payment candidates.
+- Rejection of unknown templates, triggers, events, fields/code, arbitrary graphs, mappings, freshness ranges, metrics/operators, fractional thresholds, invalid AI settings, invalid approval roles, duplicate/empty/unsupported actions and vehicle-control actions.
+- Three-source normalized event aggregation; tenant/job/mapping/freshness/unknown-state fail-closed checks.
+- ETA, delay and simulated battery conditions changing execution; customerId and jobId mapping.
+- Mock-AI on/off and tone changes; typed draft proposals do not save or activate.
+- Always-review vs internal-only policy; inability to bypass customer-action review; wrong reviewer blocked; explicit rejection creates no outputs.
+- Edited approval text feeding actual output records; Sheets action updates only a local review row, not actual delivery or route state.
+- Selective failure/retry preserves successful outputs; a failed Sheets action leaves its row unchanged until retry.
+- Freshness rechecked before approval and retry; an expired run can still be rejected.
+- Durable replay/idempotency conflicts, immutable activation snapshots, optimistic version conflicts, storage restart, corruption fail-closed and copy isolation.
+- HTTP round trip, validation status, origin guard, strict proposal schema, UI source boundaries and retained scenario paths.
+- Actual frontend binding/session logic tests for immediate number/title commits, review-text/role preservation and persisted retry keys across reload (mock DOM, not pixel tests).
+
+JavaScript syntax checks pass for server, engine and new frontend. Automated UI-source assertions do not replace browser checks. The existing legacy engine, communication, font/design and vehicle regression files are unchanged.
+
+## Actual browser checks
+
+Verified in actual dot cloud Chromium against the local native-terminal Node server, using fictional data only:
+
+- Workflow library and builder load; save and activate are separate operations.
+- Visit: Calendar/Sheets/vehicle-context fixture, ETA 3 <= 5, approval wait, edited message, then selected customer + Slack local records with zero external sends.
+- Delivery: Discord/Sheets/vehicle-context fixture, delay 18 >= 10, operator approval, then the local Sheets row becomes `reviewed` and Discord records the result; actual route/delivery state remains unchanged.
+- Injected first-attempt Sheets failure produces partial failure. Retry updates only Sheets (attempt 2); the successful Discord output remains attempt 1.
+- Delivery delay 5 >= 10 is filtered before assistance/actions. A mapping-mismatch fixture is blocked before assistance/actions.
+- Malformed JSON and an unsupported `customCode` field are rejected without replacing the prior valid configuration.
+- Browser reload and native server restart preserve stored runs/results.
+- Actual Pretendard loads. At innerWidth 1180, document scrollWidth is 1165, with no desktop horizontal overflow. Native screenshots are actual web-prototype views, not generated mockups or emulator screenshots.
+
+A numeric-input direct-save bug found during this pass was corrected with immediate input-state commits and is covered by new frontend regression tests. A sticky side-panel overlap was removed. Final browser recheck passed: direct-save threshold 5→2 and title changes saved on the first click; browser reload confirmed the title, threshold 2 and freshness 300. Activating the revised version made the same ETA 3 fixture filter on 3≤2, while the prior v1 successful run remained unchanged. Scrolling to the bottom confirmed that the summary and event cards no longer overlap.
+
+No mobile-device viewport, live API, actual LLM, vehicle or emulator validation is claimed. Source, browser and pure-engine checks are distinct kinds of evidence.
+
+## Not implemented or tested
+
+Actual LLM inference, natural-language agent planning, unrestricted DAGs, external connector sends, OAuth, webhook subscriptions, live GPS/traffic/ETA, Pleos SDK or emulator execution, vehicle control/navigation, payments, live customer data, production tenancy/authentication and distributed transaction durability. Platform admin contract changes are source-defined, not a writable admin UI.
+
+---
+
 # Verification record
 
 ## v0.5.0 vehicle workflow simulation · 24 October 2026
@@ -96,3 +184,7 @@ Using the actual UI against a local Node server:
 Screenshots are separate private review deliverables, not included in the source ZIP.
 
 No real LLM, external messaging account, HTTP integration endpoint, Pleos SDK, emulator, Android project, or vehicle hardware was tested.
+
+## Final repository integration checks · v0.7.0
+
+The publication snapshot preserves the separately isolated experimental Pleos source preview from the existing main branch. Final independent checks pass: `npm test` (**247/247**) and `node --test experimental/pleos-sdk-source-preview/tests/*.test.mjs` (**21/21**), with no failures, skips or cancellations. All JavaScript/ES module syntax checks pass. The protocol tests use fake callbacks; Kotlin/Gradle/SDK compilation, emulator execution and real vehicles remain untested. No native binaries, runtime data, credentials or duplicate old web application are included.

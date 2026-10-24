@@ -4,6 +4,8 @@ import { resolve, dirname, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createWorkflow, WorkflowError } from './workflow.mjs';
 import { createCommunication } from './communication.mjs';
+import { createPlatform } from './platform.mjs';
+import { createFleet } from './fleet.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.woff2': 'font/woff2', '.txt': 'text/plain; charset=utf-8' };
@@ -25,6 +27,8 @@ async function readBody(request, limit = 16_384) {
 export function createServer({ dataDir = process.env.MOBFLOW_DATA_DIR || resolve(ROOT, 'data'), publicDir = resolve(ROOT, 'public'), clock } = {}) {
   const workflow = createWorkflow({ dataDir });
   const communication = createCommunication({ dataDir, ...(clock ? { clock } : {}) });
+  const platform = createPlatform({ dataDir, ...(clock ? { clock } : {}) });
+  const fleet = createFleet({ dataDir, ...(clock ? { clock } : {}) });
   const staticRoot = resolve(publicDir);
   const server = http.createServer(async (request, response) => {
     response.setHeader('X-Content-Type-Options', 'nosniff');
@@ -38,6 +42,22 @@ export function createServer({ dataDir = process.env.MOBFLOW_DATA_DIR || resolve
         if (origin && origin !== `http://${request.headers.host}` && origin !== `https://${request.headers.host}`) throw new WorkflowError(403, 'ORIGIN_REJECTED', '다른 출처의 변경 요청은 허용하지 않습니다.');
       }
       if (path === '/api/health' && request.method === 'GET') return json(response, 200, { ok: true, mode: 'demo', vehicleConnected: false });
+      if (path === '/api/fleet' && request.method === 'GET') return json(response, 200, fleet.getState(url.searchParams.get('actorId')));
+      if (path.startsWith('/api/fleet/') && request.method === 'POST') {
+        const body = await readBody(request, 32_768);
+        const operation = { '/api/fleet/inspect':'inspect', '/api/fleet/policy':'changePolicy', '/api/fleet/vehicles':'register', '/api/fleet/configure':'configure', '/api/fleet/bindings':'bind', '/api/fleet/runs':'run' }[path];
+        if (operation) return json(response, 200, fleet[operation](body));
+        const match = path.match(/^\/api\/fleet\/runs\/([A-Za-z0-9-]+)\/(approve|revoke|execute|retry)$/);
+        if (match) return json(response, 200, fleet.transition(match[1], match[2], body));
+      }
+      if (path === '/api/platform' && request.method === 'GET') return json(response, 200, platform.getState());
+      if (path.startsWith('/api/platform/') && request.method === 'POST') {
+        const body = await readBody(request, 32_768);
+        const operation = { '/api/platform/validate':'validate', '/api/platform/propose':'propose', '/api/platform/drafts':'save', '/api/platform/activate':'activate', '/api/platform/runs':'run' }[path];
+        if (operation) return json(response, 200, platform[operation](body));
+        const match = path.match(/^\/api\/platform\/runs\/([A-Za-z0-9-]+)\/(approve|reject|retry)$/);
+        if (match) return json(response, 200, platform.transition(match[1], match[2], body));
+      }
       if (path === '/api/state' && request.method === 'GET') return json(response, 200, workflow.getState());
       if (path === '/api/communication' && request.method === 'GET') return json(response, 200, communication.getState());
       if (path === '/api/communication/configurations' && request.method === 'POST') {
@@ -87,6 +107,8 @@ export function createServer({ dataDir = process.env.MOBFLOW_DATA_DIR || resolve
   server.headersTimeout = 10_000;
   server.workflow = workflow;
   server.communication = communication;
+  server.platform = platform;
+  server.fleet = fleet;
   return server;
 }
 

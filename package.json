@@ -1,0 +1,15 @@
+{
+  "name": "mobflow-prototype",
+  "version": "0.5.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-only Korean B2B2C workflow demo with configurable simulated customer communication, tracking and pickup approval.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "test": "node --test tests/*.test.mjs"
+  }
+}

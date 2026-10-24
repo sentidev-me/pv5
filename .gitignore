@@ -1,0 +1,17 @@
+node_modules/
+data/
+*.log
+.env
+.env.*
+!.env.example
+test-results/
+
+# Native source-preview local/build output
+.gradle/
+build/
+local.properties
+*.apk
+*.aab
+*.jks
+*.keystore
+.DS_Store

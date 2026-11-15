@@ -1,3 +1,32 @@
+# Native bridge extension · backend evidence
+
+Working copy verification: `npm test` passes **322/322 tests** (286 previous regressions + 28 in `tests/native-vehicle.test.mjs` + 8 native-bound cases in `tests/unified-ui.test.mjs`). No skipped tests. The log is retained with the build evidence. The extension exercises real HTTP routing and shared persistent unified runs, but mocked observation input; it is not an emulator run or SDK callback proof. See [native contract and limitations](NATIVE_VEHICLE_BRIDGE.md). Android build/runtime evidence is maintained separately.
+
+---
+
+# PleosFlows v0.8.1 branding verification · 28 October 2026
+
+## Automated checks
+**286 / 286 tests pass** (282 existing regressions plus 4 branding/compatibility contracts), with zero failed, skipped or cancelled tests. Node 24.22.1; no dependencies installed. All JavaScript/MJS syntax checks and a clean ZIP-extraction test are also part of final packaging verification.
+
+The added checks cover exact PleosFlows titles, selected concept and independent-proposal disclosure, preserved browser selection keys and the legacy `MOBFLOW_DATA_DIR` configuration. The application package is `pleosflows-prototype` version `0.8.1`. The underlying v0.8 workflow, routes, data schemas and simulated execution boundaries remain unchanged.
+
+## Actual Chromium checks
+Using isolated fictional storage and the current source, the primary route was exercised twice:
+- Activate school rule v1, vehicle101/trip101, ETA-only disclosure, approaching threshold3minutes; dispatch a specific run.
+- Driver accepts in parked simulation; observer injects departure → customer shows8minutes; ETA2 triggers the approach rule; no position or distance is disclosed.
+- Driver shows movement lock, then arrival without implied completion. Completion review → Cancel → review again leaves the run uncompleted until explicit confirmation.
+- Explicit completion hides ETA/position on the same customer link. Reload preserves the completed run, selected ID and same-run audit. A second dispatch creates a different run without rewriting the first.
+- Main desktop and all retained entry routes were inspected for PleosFlows titles and no visible old brand. A legacy CSS lowercase transform and an overlapping disclosure banner were corrected for exact visible branding.
+- The primary desktop layout was checked at1180CSSpx, with document width no greater than viewport. The driver/customer flow was repeated in an actually resized502CSSpx Chromium window, also without horizontal overflow. This is responsive web QA, not physical-device testing.
+
+Actual screenshots were captured separately for presentation use; no screenshots or runtime data are bundled in the source ZIP. First run `11874ba1-43a5-40c9-b424-8da523c92369`; responsive run `7adb288b-243d-4f94-b2c8-8e8d42d2b11c`. The second run is independent, not a rewind. Recorded timestamps are demonstration timings, not real journeys.
+
+## Not run / not claimed
+Native SDK/APK/emulator or real-vehicle execution, production authentication, real customer identities, live external messages, physical-device testing, exhaustive accessibility audit, and full re-execution of all historical lab UI scenarios. Their automated regressions passed; previous browser records below remain historical. The brand is an independent proposal, not Kia/Pleos sponsorship, partnership or certification.
+
+---
+
 # v0.7 company fleet and policy verification · 24 October 2026
 
 ## Automated verification
@@ -98,7 +127,7 @@ The actual web UI was inspected in cloud Chromium using an isolated local demo s
 
 Actual-browser interaction checks passed for preparation → departure/moving lock → approaching → parked arrival → separate completion confirmation. Cancel/reopen works. Blocking simulated UX while parked hides arrival/completion controls and cancels a pending confirmation. In two tabs, changing the same run to moving removed the other tab's completion prompt after its ten-second read-only polling interval. Completion survived fresh reload; the same scoped customer link displayed sharing ended with no map/distance/ETA. Fresh scripts loaded successfully, with no application-origin errors observed; unrelated browser-extension metadata messages are excluded. Later frontend failure/retry changes are covered by script regressions, not claimed as real network fault injection in the browser.
 
-The screenshots visibly separate the outside-screen simulation/observer controls from the vehicle concept. No map/navigation replacement, guaranteed split screen, overlay, or actual navigation focus transition is shown. The conceptual moving lock does not establish that MOBFLOW can run in the background or while driving. Real CarUxRestrictionsManager integration, category eligibility, OS/app lifecycle, safety, compatibility, mobile/device layout, and actual vehicle behavior remain untested.
+The screenshots visibly separate the outside-screen simulation/observer controls from the vehicle concept. No map/navigation replacement, guaranteed split screen, overlay, or actual navigation focus transition is shown. The conceptual moving lock does not establish that PleosFlows can run in the background or while driving. Real CarUxRestrictionsManager integration, category eligibility, OS/app lifecycle, safety, compatibility, mobile/device layout, and actual vehicle behavior remain untested.
 
 
 ## v0.4.1 visual redesign · 24 October 2026
@@ -184,7 +213,3 @@ Using the actual UI against a local Node server:
 Screenshots are separate private review deliverables, not included in the source ZIP.
 
 No real LLM, external messaging account, HTTP integration endpoint, Pleos SDK, emulator, Android project, or vehicle hardware was tested.
-
-## Final repository integration checks · v0.7.0
-
-The publication snapshot preserves the separately isolated experimental Pleos source preview from the existing main branch. Final independent checks pass: `npm test` (**247/247**) and `node --test experimental/pleos-sdk-source-preview/tests/*.test.mjs` (**21/21**), with no failures, skips or cancellations. All JavaScript/ES module syntax checks pass. The protocol tests use fake callbacks; Kotlin/Gradle/SDK compilation, emulator execution and real vehicles remain untested. No native binaries, runtime data, credentials or duplicate old web application are included.

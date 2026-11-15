@@ -79,5 +79,14 @@ export function createFleet({dataDir,clock=Date.now}={}) {
  trace(s,'local_record','로컬 모의 결과를 저장했습니다. 네트워크 명령 전송 0건 · 실제 차량 확인 없음.');changed=true;
  }}if(!changed)fail('NO_ELIGIBLE_STEP','실행 또는 재시도할 액션이 없습니다.',409);b.version++;return {batchId:b.id};});}
  function inspect(input){object(input,['actorId','vehicleId','action','tripId']);const a=actor(input.actorId),v=store.vehicles.find(v=>v.id===input.vehicleId);const d=input.tripId!==undefined&&input.tripId!==v?.tripId?{decision:'denied',code:'TRIP_MISMATCH',reason:'운행 범위가 일치하지 않습니다.'}:evaluate(a,v,input.action);return {decision:d,validUntil:d.decision==='allowed'?v.freshAt+120000:null,fields:d.decision==='allowed'&&input.action==='vehicle.read'?fields(a,v):{},networkCommandSent:false,realExecutionConfirmed:false};}
- return {getState:state,inspect,changePolicy,configure,register,bind,run,transition};
+ // Common role/scope/field gate used by the unified customer projection.
+ // Telemetry freshness is checked by the calling authoritative execution, not the old fixture.
+ function disclosurePolicy({actorId,vehicleId,tripId,snapshot}) {
+  const a=actor(actorId),v=store.vehicles.find(v=>v.id===vehicleId);
+  if(!scoped(a,v)||tripId!==v?.tripId)return {allowed:false,reason:'SCOPE_DENIED',fields:[]};
+  const p=policy(a),current=p.rules[a.role],original=snapshot?.rules?.[a.role];
+  if(current.actions['vehicle.read']!=='allow'||original?.actions['vehicle.read']!=='allow')return {allowed:false,reason:'POLICY_DENIED',fields:[],version:p.version};
+  return {allowed:true,reason:'POLICY_ALLOWED',fields:current.fields.filter(f=>original.fields.includes(f)),version:p.version};
+ }
+ return {getState:state,inspect,changePolicy,configure,register,bind,run,transition,disclosurePolicy};
 }

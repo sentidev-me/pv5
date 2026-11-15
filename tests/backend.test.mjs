@@ -30,7 +30,7 @@ const action = (store, request, name, extra = {}) => store.transition(request.id
 
 async function httpFixture(t) {
   const { directory } = fixture(t);
-  const publicDir = join(directory, 'public'); mkdirSync(publicDir); writeFileSync(join(publicDir, 'index.html'), '<!doctype html><title>MobFlow test</title>');
+  const publicDir = join(directory, 'public'); mkdirSync(publicDir); writeFileSync(join(publicDir, 'index.html'), '<!doctype html><title>PleosFlows test</title>');
   const server = createServer({ dataDir: join(directory, 'http-data'), publicDir });
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   t.after(() => new Promise((resolve) => server.close(resolve)));
@@ -222,7 +222,7 @@ test('simulation adapter never sends more than two navigation waypoints', () => 
 
 test('HTTP API serves static assets, state, structured errors, and complete workflow', async (t) => {
   const { base, post } = await httpFixture(t);
-  let response = await fetch(base + '/'); assert.equal(response.status, 200); assert.match(await response.text(), /MobFlow test/);
+  let response = await fetch(base + '/'); assert.equal(response.status, 200); assert.match(await response.text(), /PleosFlows test/);
   response = await fetch(base + '/api/health'); assert.equal((await response.json()).vehicleConnected, false);
   let result = await post('/api/requests', input(SAMPLE_MESSAGE, 'http-create'));
   assert.equal(result.status, 201); let request = result.body.request;

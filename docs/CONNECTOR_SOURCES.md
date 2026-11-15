@@ -1,6 +1,6 @@
 # Connector documentation and access boundaries
 
-Official documentation reviewed on 24 October 2026. Documentation availability is not evidence of a connected account, project access, a tested adapter or a live vehicle integration. All MOBFLOW connections remain local simulations or disabled catalog entries.
+Official documentation reviewed on 24 October 2026. Documentation availability is not evidence of a connected account, project access, a tested adapter or a live vehicle integration. All PleosFlows connections remain local simulations or disabled catalog entries.
 
 ## OpenAPI targets
 
@@ -23,4 +23,4 @@ Official documentation reviewed on 24 October 2026. Documentation availability i
 
 ## Product positioning reference
 
-- [IFTTT AI Agent](https://ifttt.com/ai_agent): AI-assisted automation already exists in the broader category. MOBFLOW's proposed differentiator is mobility job context, reliable execution, bounded permissions and reviewable customer outputs, not the mere addition of AI.
+- [IFTTT AI Agent](https://ifttt.com/ai_agent): AI-assisted automation already exists in the broader category. PleosFlows's proposed differentiator is mobility job context, reliable execution, bounded permissions and reviewable customer outputs, not the mere addition of AI.

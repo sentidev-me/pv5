@@ -1,9 +1,9 @@
 {
-  "name": "mobflow-prototype",
-  "version": "0.7.0",
+  "name": "pleosflows-prototype",
+  "version": "0.9.0",
   "private": true,
   "type": "module",
-  "description": "Local-only Korean customer-company mobility console with bounded workflows, role-scoped disclosure and two-vehicle policy simulation.",
+  "description": "PleosFlows — 외부 서비스의 모의 이벤트와 PLEOS 에뮬레이터를 연결하는 Agent Workflow 프로토타입",
   "engines": {
     "node": ">=22"
   },

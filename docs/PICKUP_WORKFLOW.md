@@ -1,6 +1,6 @@
 > Historical v0.3 pickup-only guide. In v0.4 this screen is at `/pickup.html`; the main `/` screen is the new customer-communication workflow. Test counts below describe the old baseline.
 
-# MOBFLOW · One request, three connected roles
+# PleosFlows · One request, three connected roles
 
 **Parent phone → manager desktop approval → vehicle display confirmation → parent result.**
 
@@ -13,7 +13,7 @@ This local Korean prototype demonstrates a workflow product, not a replacement s
 Prerequisite: Node.js 22+ (tested on Node 24.19.0). Unzip the supplied source bundle, then:
 
 ```sh
-cd mobflow
+cd pleosflows
 npm start
 ```
 

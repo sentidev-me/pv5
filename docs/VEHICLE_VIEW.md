@@ -2,7 +2,7 @@
 
 ## Product boundary
 
-MOBFLOW is a separate job/workflow app, not a navigation replacement. The intended value is reducing repeated phone checks and manual customer-status messages around a job, while keeping explicit handover/completion decisions with the operator. This is a product hypothesis, not a proven productivity or driving-safety result. A phone app could perform the same workflow; the potential vehicle benefit is relevant parked-context access in the vehicle and eventual authorized vehicle events, neither of which proves lower distraction without testing.
+PleosFlows is a separate job/workflow app, not a navigation replacement. The intended value is reducing repeated phone checks and manual customer-status messages around a job, while keeping explicit handover/completion decisions with the operator. This is a product hypothesis, not a proven productivity or driving-safety result. A phone app could perform the same workflow; the potential vehicle benefit is relevant parked-context access in the vehicle and eventual authorized vehicle events, neither of which proves lower distraction without testing.
 
 The demo displays a conceptual lock state while moving, not a genuine OS transition to navigation. The observer panel is explicitly outside the vehicle screen and is not an overlay. No guaranteed split screen, foreground steal, background service, push notification, route change, real GPS, or real messaging is implemented. No SDK binaries are installed or invoked.
 
@@ -23,7 +23,7 @@ Change-request states shown by **변경 요청 경계** are non-executing design
 
 Read on 2026-10-24; these documents do not validate this prototype:
 
-- Pleos app windows may vary by vehicle and screen, and are managed by the OS/user, not a guaranteed navigation-plus-MOBFLOW arrangement: https://document.pleos.ai/en/docs/pleos-only/vehicle-app-planning-guide/app-structure-screen-model
+- Pleos app windows may vary by vehicle and screen, and are managed by the OS/user, not a guaranteed navigation-plus-PleosFlows arrangement: https://document.pleos.ai/en/docs/pleos-only/vehicle-app-planning-guide/app-structure-screen-model
 - Actual UX restrictions must be obtained from CarUxRestrictionsManager and its active flags/callbacks, not inferred solely from parked/moving state: https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/driving-restriction-development-guide
 - Category policy/Distraction Optimized eligibility must be reviewed; a business-workflow app is not automatically permitted while driving: https://document.pleos.ai/en/docs/pleos-only/vehicle-app-planning-guide/app-category
 

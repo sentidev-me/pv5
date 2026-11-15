@@ -20,7 +20,7 @@ export const COMMUNICATION_PRESETS = freeze([
 export const COMMUNICATION_TEMPLATE = freeze({
   id: 'customer-communication', version: 1, title: '이동·도착 고객 안내', available: true,
   description: '관리자가 공급한 고정 템플릿에서 사업자가 고객 안내 연결과 위치 공유 범위를 설정합니다.',
-  author: 'MOBFLOW 관리자', mode: 'simulation', executor: 'fixed-customer-communication-v1', editable: false,
+  author: 'PleosFlows 관리자', mode: 'simulation', executor: 'fixed-customer-communication-v1', editable: false,
   nodes: [
     { id: 'configure', label: '사업자 설정', kind: 'configuration' },
     { id: 'depart', label: '출발', kind: 'explicit-simulation-action' },

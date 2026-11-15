@@ -1,4 +1,4 @@
-# MOBFLOW v0.6: bounded mobility workflow studio
+# PleosFlows v0.6: bounded mobility workflow studio
 
 ## Product boundary
 
